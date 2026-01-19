@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koperasi Syarikat Islam - App Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .demo-container {
+            background: white;
+            border-radius: 40px;
+            padding: 40px 20px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .phone-frame {
+            background: #1a1a1a;
+            border-radius: 36px;
+            padding: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .phone-screen {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .status-bar {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            padding: 12px 20px 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            font-size: 13px;
+        }
+        
+        .screen {
+            display: none;
+            min-height: 640px;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        /* Splash Screen */
+        .splash-screen {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .logo-text {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .app-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .app-subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        /* Login Screen */
+        .login-screen {
+            padding: 24px;
+            background: #f8f9fa;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+        }
+        
+        .login-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+        
+        .login-subtitle {
+            font-size: 15px;
+            color: #666;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 4px rgba(46,125,50,0.1);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46,125,50,0.3);
+        }
+        
+        .register-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .register-link a {
+            color: #2E7D32;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            background: #f8f9fa;
+            min-height: 640px;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+            padding: 20px 20px 40px;
+            border-radius: 0 0 30px 30px;
+            color: white;
+        }
+        
+        .user-greeting {
+            font-size: 15px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+        
+        .user-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .user-id {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        .loan-card {
+            background: white;
+            margin: -20px 20px 20px;
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .loan-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .status-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4CAF50;
+        }
+        
+        .loan-amount {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        .loan-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .loan-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .detail-item {
+            text-align: center;
+        }
+        
+        .detail-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .next-payment {
+            background: #FFF3E0;
+            padding: 16px;
+            border-radius: 14px;
+            margin-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .payment-info {
+            flex: 1;
+        }
+        
+        .payment-label {
+            font-size: 12px;
+            color: #E65100;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .payment-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: #E65100;
+        }
+        
+        .payment-date {
+            font-size: 11px;
+            color: #FF6F00;
+            margin-top: 2px;
+        }
+        
+        .quick-menu {
+            padding: 0 20px 20px;
+        }
+        
+        .menu-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .menu-item {
+            background: white;
+            padding: 20px 12px;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        
+        .menu-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .menu-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Application Form */
+        .application-screen {
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .app-header {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            margin-right: 12px;
+        }
+        
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        .form-card {
+            background: white;
+            padding: 24px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+        
+        .amount-display {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            color: white;
+        }
+        
+        .amount-label {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .amount-value {
+            font-size: 36px;
+            font-weight: 800;
+        }
+        
+        .slider-container {
+            padding: 0 4px;
+        }
+        
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: #e0e0e0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #2E7D32;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(46,125,50,0.4);
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .tenor-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .tenor-option {
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .tenor-option.selected {
+            border-color: #2E7D32;
+            background: #E8F5E9;
+        }
+        
+        .tenor-months {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        
+        .tenor-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .select-field {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 14px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .estimate-card {
+            background: #E8F5E9;
+            padding: 20px;
+            border-radius: 16px;
+            margin-top: 20px;
+        }
+        
+        .estimate-title {
+            font-size: 13px;
+            color: #2E7D32;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .estimate-amount {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1B5E20;
+            margin-bottom: 4px;
+        }
+        
+        .estimate-note {
+            font-size: 11px;
+            color: #558B2F;
+        }
+        
+        /* Navigation */
+        .nav-container {
+            padding: 12px 20px 20px;
+            text-align: center;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #2E7D32;
+            border: 2px solid #2E7D32;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: #E8F5E9;
+        }
+        
+        .screen-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+        }
+        
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.3s;
+        }
+        
+        .indicator-dot.active {
+            background: #2E7D32;
+            width: 24px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="phone-frame">
+            <div class="phone-screen">
+                <!-- Status Bar -->
+                <div class="status-bar">
+                    <span>9:41</span>
+                    <span>●●●●●</span>
+                </div>
+                
+                <!-- Splash Screen -->
+                <div class="screen splash-screen active" id="splash">
+                    <div class="logo-container">
+                        <div class="logo-text">KSI</div>
+                    </div>
+                    <div class="app-title">Koperasi Syarikat Islam</div>
+                    <div class="app-subtitle">Solusi Pembiayaan Syariah Untuk Anggota</div>
+                </div>
+                
+                <!-- Login Screen -->
+                <div class="screen login-screen" id="login">
+                    <div class="login-header">
+                        <div class="login-logo">KSI</div>
+                        <div class="login-title">Selamat Datang</div>
+                        <div class="login-subtitle">Masuk ke akun Anda</div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Nomor Anggota</label>
+                        <input type="text" class="input-field" placeholder="Contoh: KSI-2024-001234" value="KSI-2024-001234">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">PIN</label>
+                        <input type="password" class="input-field" placeholder="Masukkan 6 digit PIN" value="******">
+                    </div>
+                    
+                    <button class="btn-primary" onclick="showScreen('dashboard')">Masuk</button>
+                    
+                    <div class="register-link">
+                        Belum punya akun? <a href="#">Daftar Sekarang</a>
+                    </div>
+                </div>
+                
+                <!-- Dashboard -->
+                <div class="screen dashboard" id="dashboard">
+                    <div class="dashboard-header">
+                        <div class="user-greeting">Assalamu'alaikum,</div>
+                        <div class="user-name">Ahmad Fauzi</div>
+                        <div class="user-id">No. Anggota: KSI-2024-001234</div>
+                    </div>
+                    
+                    <div class="loan-card">
+                        <div class="loan-status">
+                            <div class="status-indicator"></div>
+                            <div class="status-text">PINJAMAN AKTIF</div>
+                        </div>
+                        <div class="loan-amount">Rp 15.000.000</div>
+                        <div class="loan-label">Jumlah Pinjaman</div>
+                        
+                        <div class="loan-details">
+                            <div class="detail-item">
+                                <div class="detail-value">16x</div>
+                                <div class="detail-label">Sisa Cicilan</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-value">Rp 13,2 Jt</div>
+                                <div class="detail-label">Sisa Hutang</div>
+                            </div>
+                        </div>
+                        
+                        <div class="next-payment">
+                            <div class="payment-info">
+                                <div class="payment-label">CICILAN BERIKUTNYA</div>
+                                <div class="payment-amount">Rp 915.000</div>
+                                <div class="payment-date">Jatuh tempo: 5 Februari 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-menu">
+                        <div class="menu-title">Menu Cepat</div>
+                        <div class="menu-grid">
+                            <div class="menu-item" onclick="showScreen('application')">
+                                <div class="menu-icon">📝</div>
+                                <div class="menu-label">Ajukan Pinjaman</div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">📊</div>
+                                <div class="menu-label">Riwayat Cicilan</div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">👤</div>
+                                <div class="menu-label">Profil Saya</div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">📄</div>
+                                <div class="menu-label">Kontrak</div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">💬</div>
+                                <div class="menu-label">Customer Service</div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">⚙️</div>
+                                <div class="menu-label">Pengaturan</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Application Form -->
+                <div class="screen application-screen" id="application">
+                    <div class="app-header">
+                        <span class="back-btn" onclick="showScreen('dashboard')">←</span>
+                        <span class="header-title">Ajukan Pinjaman Baru</span>
+                    </div>
+                    
+                    <div class="form-card">
+                        <div class="form-section-title">Jumlah Pinjaman</div>
+                        <div class="amount-display">
+                            <div class="amount-label">Jumlah yang Diajukan</div>
+                            <div class="amount-value" id="loanAmount">Rp 10.000.000</div>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="5000000" max="25000000" step="1000000" value="10000000" class="slider" id="amountSlider" oninput="updateAmount(this.value)">
+                            <div class="slider-labels">
+                                <span>Rp 5 Jt</span>
+                                <span>Rp 25 Jt</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-card">
+                        <div class="form-section-title">Jangka Waktu</div>
+                        <div class="tenor-options">
+                            <div class="tenor-option" onclick="selectTenor(6, this)">
+                                <div class="tenor-months">6</div>
+                                <div class="tenor-label">Bulan</div>
+                            </div>
+                            <div class="tenor-option" onclick="selectTenor(12, this)">
+                                <div class="tenor-months">12</div>
+                                <div class="tenor-label">Bulan</div>
+                            </div>
+                            <div class="tenor-option selected" onclick="selectTenor(18, this)">
+                                <div class="tenor-months">18</div>
+                                <div class="tenor-label">Bulan</div>
+                            </div>
+                            <div class="tenor-option" onclick="selectTenor(24, this)">
+                                <div class="tenor-months">24</div>
+                                <div class="tenor-label">Bulan</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-card">
+                        <div class="form-section-title">Tujuan Pinjaman</div>
+                        <select class="select-field">
+                            <option>Pendidikan Anak</option>
+                            <option>Renovasi Rumah</option>
+                            <option>Modal Usaha</option>
+                            <option>Pembelian Kendaraan</option>
+                            <option>Kebutuhan Mendesak</option>
+                            <option>Lainnya</option>
+                        </select>
+                        
+                        <div class="estimate-card">
+                            <div class="estimate-title">ESTIMASI CICILAN BULANAN</div>
+                            <div class="estimate-amount" id="monthlyPayment">Rp 610.000</div>
+                            <div class="estimate-note">*Margin 10% per tahun (syariah compliant)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="nav-container">
+                        <button class="btn-primary">Lanjutkan</button>
+                        <button class="btn-secondary" onclick="showScreen('dashboard')">Batal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="screen-indicator">
+            <div class="indicator-dot" id="dot1"></div>
+            <div class="indicator-dot" id="dot2"></div>
+            <div class="indicator-dot" id="dot3"></div>
+            <div class="indicator-dot" id="dot4"></div>
+        </div>
+    </div>
+    
+    <script>
+        let currentScreen = 'splash';
+        let selectedTenor = 18;
+        
+        // Auto-transition from splash to login
+        setTimeout(() => {
+            showScreen('login');
+        }, 2000);
+        
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById(screenId).classList.add('active');
+            currentScreen = screenId;
+            
+            // Update indicators
+            updateIndicators(screenId);
+        }
+        
+        function updateIndicators(screenId) {
+            const dots = document.querySelectorAll('.indicator-dot');
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            const mapping = {
+                'splash': 0,
+                'login': 1,
+                'dashboard': 2,
+                'application': 3
+            };
+            
+            const index = mapping[screenId];
+            if (index !== undefined && dots[index]) {
+                dots[index].classList.add('active');
+            }
+        }
+        
+        function updateAmount(value) {
+            const formatted = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(value);
+            
+            document.getElementById('loanAmount').textContent = formatted;
+            calculateMonthlyPayment(value, selectedTenor);
+        }
+        
+        function selectTenor(months, element) {
+            // Remove selected class from all
+            document.querySelectorAll('.tenor-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add to clicked
+            element.classList.add('selected');
+            selectedTenor = months;
+            
+            // Recalculate monthly payment
+            const amount = document.getElementById('amountSlider').value;
+            calculateMonthlyPayment(amount, months);
+        }
+        
+        function calculateMonthlyPayment(principal, months) {
+            // Simple calculation: (principal * 1.10) / months
+            // 10% annual margin distributed across months
+            const totalWithMargin = principal * (1 + (0.10 * months / 12));
+            const monthly = totalWithMargin / months;
+            
+            const formatted = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(monthly);
+            
+            document.getElementById('monthlyPayment').textContent = formatted;
+        }
+        
+        // Initialize
+        updateIndicators('splash');
+    </script>
+</body>
+</html>
