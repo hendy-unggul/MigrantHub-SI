@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migrant Hub - Investor Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #0a0a0a;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .deck-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            scroll-snap-type: x mandatory;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        
+        .deck-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            position: relative;
+        }
+        
+        /* Slide-specific backgrounds */
+        .slide-1 { background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%); }
+        .slide-2 { background: linear-gradient(135deg, #1a237e 0%, #283593 100%); }
+        .slide-3 { background: linear-gradient(135deg, #b71c1c 0%, #c62828 100%); }
+        .slide-4 { background: linear-gradient(135deg, #004d40 0%, #00695c 100%); }
+        .slide-5 { background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%); }
+        .slide-6 { background: linear-gradient(135deg, #4a148c 0%, #6a1b9a 100%); }
+        .slide-7 { background: linear-gradient(135deg, #e65100 0%, #f57c00 100%); }
+        .slide-8 { background: linear-gradient(135deg, #01579b 0%, #0277bd 100%); }
+        .slide-9 { background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 100%); }
+        .slide-10 { background: linear-gradient(135deg, #1a237e 0%, #283593 100%); }
+        
+        .slide-number {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+        }
+        
+        .slide-title {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .slide-subtitle {
+            font-size: clamp(18px, 2.5vw, 24px);
+            opacity: 0.9;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 800px;
+        }
+        
+        .content-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .content-box::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content-box::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .content-box::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+        
+        .stat-label {
+            font-size: clamp(14px, 2vw, 16px);
+            opacity: 0.8;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 30px;
+        }
+        
+        .feature-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: clamp(16px, 2vw, 20px);
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+        }
+        
+        .table th, .table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .table th {
+            font-weight: 700;
+            opacity: 0.8;
+        }
+        
+        .highlight-box {
+            background: rgba(76, 175, 80, 0.2);
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .cta-button {
+            background: #4CAF50;
+            color: white;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30px;
+            transition: transform 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+        
+        .arrow-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 20px 15px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            border-radius: 10px;
+        }
+        
+        .arrow-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .arrow-nav.prev {
+            left: 20px;
+        }
+        
+        .arrow-nav.next {
+            right: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+            
+            .content-box {
+                padding: 25px;
+            }
+            
+            .table {
+                font-size: 14px;
+            }
+            
+            .table th, .table td {
+                padding: 10px 5px;
+            }
+            
+            .arrow-nav {
+                display: none;
+            }
+            
+            .logo {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="deck-container" id="deck">
+        <!-- Slide 1: Cover -->
+        <div class="slide slide-1">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">1/10</div>
+            <h1 class="slide-title">Democratizing Finance for<br>Indonesia's 5.7M Unbanked Workers</h1>
+            <p class="slide-subtitle">Government-Backed, Sharia-Compliant Fintech with Proven Traction</p>
+            <div class="stat-grid" style="margin-top: 60px;">
+                <div class="stat-item">
+                    <div class="stat-number">1,000</div>
+                    <div class="stat-label">Loans Disbursed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4.2%</div>
+                    <div class="stat-label">NPL (vs 7-9% industry)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">94%</div>
+                    <div class="stat-label">Collection Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">$625M</div>
+                    <div class="stat-label">BSI Stimulus Access</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide slide-2">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">2/10</div>
+            <h1 class="slide-title">The Problem</h1>
+            <div class="content-box">
+                <h2 style="font-size: 32px; margin-bottom: 30px;">5.7M Workers Trapped in Predatory Lending</h2>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">4.2M</div>
+                        <div class="stat-label">Migrant Workers<br>68% Unbanked</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1.5M</div>
+                        <div class="stat-label">Factory Workers<br>70% Bank Rejected</div>
+                    </div>
+                </div>
+                <ul class="feature-list">
+                    <li>Banks require collateral they don't have</li>
+                    <li>Government programs fail (KUR: 23% approval rate)</li>
+                    <li>Forced to pinjol at 36-144% APR → debt spiral</li>
+                    <li>$10.6B annual cash flow, almost entirely underserved</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide slide-3">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">3/10</div>
+            <h1 class="slide-title">The Solution</h1>
+            <div class="content-box">
+                <h2 style="font-size: 28px; margin-bottom: 20px;">Asset-Light Marketplace Connecting Government Capital to Workers</h2>
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin: 30px 0;">
+                    <div style="text-align: center; font-size: 24px; font-weight: 700; margin-bottom: 20px;">
+                        BSI ($625M stimulus) → BPRS (100+ banks) → Cooperatives (85 partners) → Workers
+                    </div>
+                </div>
+                <ul class="feature-list">
+                    <li>We don't lend - we connect (zero balance sheet risk)</li>
+                    <li>10.5% margin vs pinjol 144% APR (14x cheaper)</li>
+                    <li>Sharia-compliant (DSN-MUI certified)</li>
+                    <li>Dual-track: Factory workers (proof) + Migrant workers (scale)</li>
+                </ul>
+                <div class="highlight-box">
+                    <strong>5-10x more capital efficient</strong> than direct lenders: $10-15M equity to reach $40M portfolio (vs $50-100M for balance sheet model)
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Traction -->
+        <div class="slide slide-4">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">4/10</div>
+            <h1 class="slide-title">Proven Traction</h1>
+            <div class="content-box">
+                <h2 style="font-size: 32px; margin-bottom: 30px;">6-Month Pilot: Model Works</h2>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">1,000</div>
+                        <div class="stat-label">Borrowers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$213K</div>
+                        <div class="stat-label">Portfolio (Rp 3.2B)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.2%</div>
+                        <div class="stat-label">NPL (Target <6%)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">94%</div>
+                        <div class="stat-label">Collection Rate</div>
+                    </div>
+                </div>
+                <ul class="feature-list" style="margin-top: 40px;">
+                    <li>2 BPRS partnerships operational</li>
+                    <li>8 cooperatives signed (22 in pipeline)</li>
+                    <li>Payroll deduction: 95%+ collection rate</li>
+                    <li>Unit economics validated: LTV/CAC >3x</li>
+                </ul>
+                <div class="highlight-box">
+                    This isn't a pitch deck startup - we've already proven the model works with real money and real borrowers.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Market -->
+        <div class="slide slide-5">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">5/10</div>
+            <h1 class="slide-title">Market Opportunity</h1>
+            <div class="content-box">
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">$4.5B</div>
+                        <div class="stat-label">TAM</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$1.1B</div>
+                        <div class="stat-label">SAM</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$375M</div>
+                        <div class="stat-label">SOM (Year 3)</div>
+                    </div>
+                </div>
+                <table class="table" style="margin-top: 40px;">
+                    <tr>
+                        <th>Segment</th>
+                        <th>Population</th>
+                        <th>Annual Flow</th>
+                        <th>Unbanked</th>
+                    </tr>
+                    <tr>
+                        <td>Migrant Workers</td>
+                        <td>4.2M</td>
+                        <td>$9B remittances</td>
+                        <td>68%</td>
+                    </tr>
+                    <tr>
+                        <td>Factory Workers</td>
+                        <td>1.5M</td>
+                        <td>$1.9B salaries</td>
+                        <td>70%</td>
+                    </tr>
+                    <tr style="font-weight: 700; background: rgba(76,175,80,0.2);">
+                        <td>TOTAL</td>
+                        <td>5.7M</td>
+                        <td>$10.6B</td>
+                        <td>68-70%</td>
+                    </tr>
+                </table>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <strong>71% larger TAM</strong> than single-track competitors. Dual-track strategy = de-risked path to unicorn.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Competitive Moats -->
+        <div class="slide slide-6">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">6/10</div>
+            <h1 class="slide-title">Unfair Advantages</h1>
+            <div class="content-box">
+                <h2 style="font-size: 28px; margin-bottom: 30px;">Four Structural Moats (24-36 Month Replication Time)</h2>
+                <ul class="feature-list">
+                    <li><strong>Institutional Mandate:</strong> Official mandate from Syarikat Islam (est. 1912). Minister of Cooperatives = Secretary-General → direct access to 85 cooperatives</li>
+                    <li><strong>Government Capital:</strong> $625M BSI stimulus at 4.22% cost of funds (40% cheaper than market). Pre-allocated, awaiting proven channel</li>
+                    <li><strong>Takaful Risk Mitigation:</strong> 3-layer protection reduces BPRS risk from 100% → 20-30%. Enables 3x faster capital deployment</li>
+                    <li><strong>Dual-Track De-Risking:</strong> Factory workers prove model (6 months), then scale migrant workers. If one track slows, other delivers metrics</li>
+                </ul>
+                <div class="highlight-box">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; text-align: center; margin-top: 20px;">
+                        <div>
+                            <div style="font-size: 32px; font-weight: 800; color: #4CAF50;">6-12mo</div>
+                            <div style="opacity: 0.8; font-size: 14px;">BSI partnership</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 32px; font-weight: 800; color: #4CAF50;">12-24mo</div>
+                            <div style="opacity: 0.8; font-size: 14px;">Cooperative access</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 32px; font-weight: 800; color: #4CAF50;">12-18mo</div>
+                            <div style="opacity: 0.8; font-size: 14px;">Credit models</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Business Model -->
+        <div class="slide slide-7">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">7/10</div>
+            <h1 class="slide-title">Business Model</h1>
+            <div class="content-box">
+                <h2 style="font-size: 28px; margin-bottom: 20px;">Asset-Light Marketplace: 4 Revenue Streams</h2>
+                <table class="table">
+                    <tr>
+                        <th>Stream</th>
+                        <th>Model</th>
+                        <th>Y1 Revenue</th>
+                        <th>Y3 Revenue</th>
+                    </tr>
+                    <tr>
+                        <td>Platform Fee</td>
+                        <td>0.25% p.a. of portfolio</td>
+                        <td>$6.25K</td>
+                        <td>$93.75K</td>
+                    </tr>
+                    <tr>
+                        <td>Origination Fee</td>
+                        <td>$3-9 per loan</td>
+                        <td>$11K</td>
+                        <td>$50K</td>
+                    </tr>
+                    <tr>
+                        <td>Credit Scoring</td>
+                        <td>$1.56 per application</td>
+                        <td>$5.66K</td>
+                        <td>$19.25K</td>
+                    </tr>
+                    <tr>
+                        <td>Transaction Fee</td>
+                        <td>0.5% per payment</td>
+                        <td>$4.38K</td>
+                        <td>$66.3K</td>
+                    </tr>
+                    <tr style="background: rgba(76,175,80,0.2); font-weight: 700;">
+                        <td>TOTAL</td>
+                        <td></td>
+                        <td>$27.3K</td>
+                        <td>$229.3K</td>
+                    </tr>
+                </table>
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <strong>Capital Efficiency:</strong> To reach $40M portfolio, we need $10-15M equity. Traditional lender needs $50-100M. <strong>We're 5-10x more efficient.</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Financials -->
+        <div class="slide slide-8">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">8/10</div>
+            <h1 class="slide-title">Path to $1-2B Exit</h1>
+            <div class="content-box">
+                <table class="table">
+                    <tr>
+                        <th>Year</th>
+                        <th>Users</th>
+                        <th>Portfolio</th>
+                        <th>Revenue</th>
+                        <th>Milestone</th>
+                    </tr>
+                    <tr>
+                        <td>Y1</td>
+                        <td>2,350</td>
+                        <td>$2.5M</td>
+                        <td>$600K</td>
+                        <td>Factory track proves unit economics</td>
+                    </tr>
+                    <tr>
+                        <td>Y2</td>
+                        <td>12,000</td>
+                        <td>$12.5M</td>
+                        <td>$5M</td>
+                        <td>PMI scale begins, Seed closed</td>
+                    </tr>
+                    <tr>
+                        <td>Y3</td>
+                        <td>20,000</td>
+                        <td>$37.5M</td>
+                        <td>$30M</td>
+                        <td>Path to profitability, Series B</td>
+                    </tr>
+                    <tr>
+                        <td>Y5</td>
+                        <td>50,000</td>
+                        <td>$93.8M</td>
+                        <td>$150M</td>
+                        <td>$25M EBITDA, regional pilot</td>
+                    </tr>
+                    <tr style="background: rgba(76,175,80,0.2); font-weight: 700;">
+                        <td>Y6-8</td>
+                        <td>100K+</td>
+                        <td>$200M+</td>
+                        <td>$250M+</td>
+                        <td>EXIT: $1-2B valuation</td>
+                    </tr>
+                </table>
+                <div style="margin-top: 40px;">
+                    <h3 style="font-size: 24px; margin-bottom: 20px;">Indonesian Fintech Comparables:</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: 800; color: #4CAF50;">$2-3B</div>
+                            <div>Kredivo (Planned IPO)</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: 800; color: #4CAF50;">$1.5B</div>
+                            <div>Akulaku (Nasdaq 2022)</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: 800; color: #4CAF50;">$2.9B</div>
+                            <div>OVO (Merger)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Team -->
+        <div class="slide slide-9">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">9/10</div>
+            <h1 class="slide-title">Team & Institutional Backing</h1>
+            <div class="content-box">
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                    <h3 style="font-size: 28px; margin-bottom: 15px;">Hendy Unggul Wibowo - Founder & CEO</h3>
+                    <p style="opacity: 0.9; line-height: 1.6;">Official Mandate Holder from Syarikat Islam (est. 1912). Direct access to Minister of Cooperatives and 85+ cooperatives nationwide.</p>
+                </div>
+                <h3 style="font-size: 24px; margin-bottom: 20px;">Institutional Partners (Built, Not Pitching):</h3>
+                <ul class="feature-list">
+                    <li><strong>Syarikat Islam:</strong> Official mandate letter signed by President. Indonesia's oldest civil society organization (1912)</li>
+                    <li><strong>Bank Syariah Indonesia (BSI):</strong> $625M stimulus allocation at 4.22% cost of funds. Active discussions for pilot deployment</li>
+                    <li><strong>100+ BPRS Banks:</strong> Execution network for loan origination. 2 partnerships operational, 3 in final discussion</li>
+                    <li><strong>85 Cooperatives:</strong> 8 signed, 22 in pipeline. Trust-based distribution reducing CAC by 5-10x vs digital</li>
+                </ul>
+                <div class="highlight-box">
+                    This isn't a solo founder building from scratch - this is orchestrating an ecosystem that already exists and trusts us.
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Ask -->
+        <div class="slide slide-10">
+            <div class="logo">MIGRANT HUB</div>
+            <div class="slide-number">10/10</div>
+            <h1 class="slide-title">The Ask</h1>
+            <div class="content-box" style="text-align: center;">
+                <div style="background: rgba(76,175,80,0.2); padding: 40px; border-radius: 20px; margin-bottom: 30px;">
+                    <h2 style="font-size: 48px; font-weight: 800; margin-bottom: 20px; color: #4CAF50;">$500K for 10% Equity</h2>
+                    <p style="font-size: 24px; opacity: 0.9;">$4M Pre-Money Valuation</p>
+                    <p style="font-size: 18px; opacity: 0.8; margin-top: 10px;">(2x Indonesian pre-seed average, justified by institutional moats)</p>
+                </div>
+                
+                <div style="text-align: left; margin: 40px 0;">
+                    <h3 style="font-size: 24px; margin-bottom: 20px;">Use of $500K (6-Month Runway):</h3>
+                    <ul style="list-style: none; font-size: 18px; line-height: 2;">
+                        <li>💰 $200K → Real loan disbursement (300-400 borrowers)</li>
+                        <li>📜 $100K → OJK PTF registration + DSN-MUI fatwa</li>
+                        <li>👥 $70K → Core team (CTO, Ops, Compliance)</li>
+                        <li>💻 $50K → MVP platform (React Native + Firebase)</li>
+                        <li>🏢 $80K → Office + 16% contingency</li>
+                    </ul>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; margin-top: 40px; text-align: left;">
+                    <h3 style="font-size: 22px; margin-bottom: 15px;">Investor Upside:</h3>
+                    <ul style="list-style: none; font-size: 18px; line-height: 1.8;">
+                        <li>✓ <strong>Month 12:</strong> $10-12M Seed valuation → 3x markup</li>
+                        <li>✓ <strong>Month 24:</strong> $40-50M Series A → 10x return</li>
+                        <li>✓ <strong>Year 5-7:</strong> $1-2B exit → 250-500x return potential</li>
+                        <li>✓ <strong>Downside protection:</strong> BSI partnership + dual-track model + proven traction</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <a href="mailto:hendy@migranthub.id" class="cta-button">Schedule Meeting</a>
+                    <p style="margin-top: 20px; opacity: 0.7; font-size: 16px;">
+                        Contact: hendy@migranthub.id | +62-XXX-XXXX-XXXX
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <button class="arrow-nav prev" id="prevBtn">←</button>
+    <button class="arrow-nav next" id="nextBtn">→</button>
+
+    <div class="navigation" id="navigation">
+        <div class="nav-dot active" data-slide="0"></div>
+        <div class="nav-dot" data-slide="1"></div>
+        <div class="nav-dot" data-slide="2"></div>
+        <div class="nav-dot" data-slide="3"></div>
+        <div class="nav-dot" data-slide="4"></div>
+        <div class="nav-dot" data-slide="5"></div>
+        <div class="nav-dot" data-slide="6"></div>
+        <div class="nav-dot" data-slide="7"></div>
+        <div class="nav-dot" data-slide="8"></div>
+        <div class="nav-dot" data-slide="9"></div>
+    </div>
+
+    <script>
+        const deck = document.getElementById('deck');
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.querySelectorAll('.nav-dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        function updateNavigation() {
+            navDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+            
+            prevBtn.style.opacity = currentSlide === 0 ? '0.3' : '1';
+            prevBtn.style.pointerEvents = currentSlide === 0 ? 'none' : 'auto';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.3' : '1';
+            nextBtn.style.pointerEvents = currentSlide === slides.length - 1 ? 'none' : 'auto';
+        }
+
+        function goToSlide(index) {
+            if (index >= 0 && index < slides.length) {
+                currentSlide = index;
+                deck.scrollTo({
+                    left: slides[index].offsetLeft,
+                    behavior: 'smooth'
+                });
+                updateNavigation();
+            }
+        }
+
+        // Navigation dots click
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => goToSlide(index));
+        });
+
+        // Arrow buttons
+        prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') goToSlide(currentSlide - 1);
+            if (e.key === 'ArrowRight') goToSlide(currentSlide + 1);
+        });
+
+        // Update current slide on scroll
+        let scrollTimeout;
+        deck.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const scrollLeft = deck.scrollLeft;
+                const slideWidth = slides[0].offsetWidth;
+                currentSlide = Math.round(scrollLeft / slideWidth);
+                updateNavigation();
+            }, 100);
+        });
+
+        // Touch swipe support (already handled by scroll-snap)
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        deck.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        deck.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchStartX - touchEndX > 50) {
+                goToSlide(currentSlide + 1);
+            }
+            if (touchEndX - touchStartX > 50) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+
+        // Initialize
+        updateNavigation();
+    </script>
+</body>
+</html>
